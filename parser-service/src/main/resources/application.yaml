@@ -1,0 +1,18 @@
+server:
+  port: ${PORT:8080}
+spring:
+#  datasource:
+#    url: "mongodb://localhost:27017/github"
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: github
+#      uri: mongodb://localhost:27017/github
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  thymeleaf:
+    cache: false
+  devtools:
+    livereload:
+      enabled: true

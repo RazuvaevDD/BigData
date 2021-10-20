@@ -8,5 +8,7 @@ public interface GithubUserService {
 
     long retrieveFollowersCount(String login);
 
-    void retrieveAll(long from, long to, long count);
+    void retrieveAllShortData(long from, long to, long count, int threads);
+
+    void retrieveAllDetailData(long from, long to, long count, int threads);
 }
