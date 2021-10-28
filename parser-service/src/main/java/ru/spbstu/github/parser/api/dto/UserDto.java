@@ -1,7 +1,8 @@
 package ru.spbstu.github.parser.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -11,9 +12,4 @@ public class UserDto {
     private long id;
 
     private String login;
-
-    @JsonProperty("avatar_url")
-    private String avatarUrl;
-
-    private String type;
 }

@@ -17,10 +17,4 @@ public class User {
     private long id;
 
     private String login;
-
-    private String avatarUrl;
-
-    private String type;
-
-    private long followersCount;
 }
