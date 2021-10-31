@@ -21,6 +21,7 @@ import ru.spbstu.github.parser.service.UserService;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static ru.spbstu.github.parser.helper.EndpointHelper.*;
@@ -74,11 +75,11 @@ public class UserServiceImpl implements UserService {
 
         // About 4GB (for speed), use -Xmx4g
 
-        int threadsCount = Math.min(threads, MAX_THREAD_COUNT);
+        int threadsCount = 10; // Math.min(threads, MAX_THREAD_COUNT);
         ExecutorService executor = Executors.newFixedThreadPool(threadsCount);
 
         // threads = 10
-        int requestSize = (int) (usersCount / threads); // 10 000 000 / 10 = 1 000 000
+        int requestSize = (int) (usersCount / threadsCount); // 10 000 000 / 10 = 1 000 000
 
         int fromIndex = 0;
         int toIndex = 0;
@@ -97,80 +98,145 @@ public class UserServiceImpl implements UserService {
     }
 
     private void retrieveByLogins(long start, int from, int to, String token) {
-//        final Page<User> users = userRepository.findAll(PageRequest.of(from, to, Sort.DEFAULT_DIRECTION));
+        log.error("{} started and will process from {} to {} users", Thread.currentThread().getName(),
+                start + from, start + to);
+
+        long startTime = System.currentTimeMillis();
+        long finishTime = startTime + 3_600_000; // 1 hour
+        long sleepTime;
+        int counter = 0;
+
         for (int i = from; i < to; i++) {
             Long id = start + i;
             final Optional<User> user = userRepository.findById(id);
             String login = user.map(User::getLogin).orElse(null);
 
             UserDetail result = retrieve(login, token);
+            counter++;
 
             if (result != null)
                 userDetailRepository.save(result);
 
+            if (counter == 4_999) {
+                try {
+                    sleepTime = finishTime - System.currentTimeMillis();
+                    log.warn("Thread want sleep. Sleep time: {} minutes", TimeUnit.MILLISECONDS.toMinutes(sleepTime));
+                    Thread.sleep(sleepTime);
+
+                    // update variables
+                    counter = 0;
+                    startTime = System.currentTimeMillis();
+                    finishTime = startTime + 3_600_000; // 1 hour
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             try {
-                Thread.sleep(1500);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        log.warn("{} stopped. Thank you!", Thread.currentThread().getName());
     }
 
     // 5000 requests per 1 hour
     // 40 tokens
     // Total: 5000 * 40 = 50 000 requests per 1 hour
+
+    // from 80 000
+    // to 90 000
     @Override
     public void retrieveAllShortData(long from, long to, long count, int threads) {
-        int threadsCount = Math.min(threads, MAX_THREAD_COUNT);
-        int requestCount = Math.min(threads, MAX_THREAD_COUNT);
+        long usersCount = to - from;
+        final long start = from;
+        int threadsCount = 10; // Math.min(threads, MAX_THREAD_COUNT);
+        int requestSize = (int) (usersCount / threadsCount);
+
         ExecutorService executor = Executors.newFixedThreadPool(threadsCount);
 
-        int number = 400_000;
+        long fromIndex = 0;
+        long toIndex = 0;
 
-        long x1 = from + number;
-        long x2 = from + number + number;
-        long x3 = from + number + number + number;
-        long x4 = from + number + number + number + number;
-        long x5 = from + number + number + number + number + number;
+        for (int i = 1; i <= threadsCount; i++) { // threadsCount = 10
+            fromIndex = toIndex;
+            toIndex = (long) i * requestSize;
 
-        executor.submit(() -> retrieve(from, x1, count, TOKENS.get(0)));
-        executor.submit(() -> retrieve(x1, x2, count, TOKENS.get(1)));
-        executor.submit(() -> retrieve(x2, x3, count, TOKENS.get(2)));
-        executor.submit(() -> retrieve(x3, x4, count, TOKENS.get(3)));
-        executor.submit(() -> retrieve(x4, x5, count, TOKENS.get(4)));
+            // for optimize
+            long finalFromIndex = start + fromIndex;
+            long finalToIndex = start + toIndex;
+            int index = i - 1;
 
-//        for (int i = 1; i <= threadsCount; i++) {
-//            var x = i; // effective final variable
-//            executor.submit(() -> retrieve(from, from * x + REQUEST_COUNT, count, TOKENS.get(x - 1)));
-//        }
+            executor.submit(() -> retrieve(finalFromIndex, finalToIndex, count, TOKENS.get(index)));
+        }
     }
 
     private void retrieve(long from, long to, long count, String token) {
+        log.error("{} started and will process from {} to {} users", Thread.currentThread().getName(),
+                from, to);
+
         if (from + count - 1 >= to) {
-            return;
-        }
-        ResponseEntity<UserDto[]> response = sendRequestToGetShortGithubUserData(from, to, count, token);
-
-        if (response.getStatusCode() != HttpStatus.OK || Objects.requireNonNull(response.getBody()).length == 0) {
+            log.warn("{} stopped. Because from + count >= to", Thread.currentThread().getName());
             return;
         }
 
-        var userStore = new LinkedList<>(Arrays.asList(response.getBody()));
-        var x = userStore.stream()
-                .map(user -> modelMapper.map(user, User.class))
-                .peek(user -> log.info("{}: {}", user.getId(), user.getLogin()))
-//                .filter(user -> !userRepository.existsByLogin(user.getLogin()))
-                .collect(Collectors.toList());
+        int total = 0;
+        long fromUserId = from;
 
-        userRepository.saveAll(x);
-        var fromUserId = userStore.getLast().getId();
-        log.info("thread={}, userId={}", Thread.currentThread().getName(), fromUserId);
-        retrieve(fromUserId, to, count, token);
+        long startTime = System.currentTimeMillis();
+        long finishTime = startTime + 3_600_000; // 1 hour
+        long sleepTime;
+        int counter = 0;
+
+        while (fromUserId < to) {
+            ResponseEntity<UserDto[]> response = sendRequestToGetShortGithubUserData(fromUserId, to, count, token);
+            counter++;
+            total++;
+
+            if (response.getStatusCode() != HttpStatus.OK || Objects.requireNonNull(response.getBody()).length == 0) {
+                continue;
+            }
+
+            var users = new LinkedList<>(Arrays.asList(response.getBody()));
+
+            var storedUsers = users.stream()
+                    .map(user -> modelMapper.map(user, User.class))
+//                    .peek(user -> log.info("{}: {}", user.getId(), user.getLogin()))
+                    .collect(Collectors.toList());
+
+            userRepository.saveAll(storedUsers);
+
+            fromUserId = users.getLast().getId();
+
+            log.info("thread={}, userId={}, requests={}", Thread.currentThread().getName(), fromUserId, total);
+
+            if (counter == 4_999) {
+                try {
+                    sleepTime = finishTime - System.currentTimeMillis();
+                    log.warn("Thread want sleep. Sleep time: {} minutes", TimeUnit.MILLISECONDS.toMinutes(sleepTime));
+                    Thread.sleep(sleepTime);
+
+                    // update variables
+                    counter = 0;
+                    startTime = System.currentTimeMillis();
+                    finishTime = startTime + 3_600_000; // 1 hour
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+//            try {
+//                Thread.sleep(50);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+        }
+        log.warn("{} stopped.", Thread.currentThread().getName());
     }
 
     private ResponseEntity<UserDto[]> sendRequestToGetShortGithubUserData(long from, long to, long count, String token) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("accept", "application/vnd.github.v3+json");
         parameters.put("since", from);
         parameters.put("per_page", count);
 
@@ -183,14 +249,21 @@ public class UserServiceImpl implements UserService {
         headers.set("Accept", "application/json");
         headers.set("Authorization", token);
 
-        return restTemplate.exchange(
-                builder.toUriString(),
-                HttpMethod.GET,
-                new HttpEntity<>(headers),
-                UserDto[].class,
-                Map.of("since", from),
-                Map.of("per_page", to),
-                Map.of("accept", "application/vnd.github.v3+json"));
+        ResponseEntity<UserDto[]> response = null;
+
+        try {
+            response = restTemplate.exchange(
+                    builder.toUriString(),
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    UserDto[].class,
+                    Map.of("since", from),
+                    Map.of("per_page", to));
+        } catch (RestClientException e) {
+            log.info("status XXX: from={}, message={}", from, e.getMessage());
+        }
+
+        return response;
     }
 
     private ResponseEntity<String> sendRequestToGetDetailedUser(String login, String token) {
@@ -210,7 +283,7 @@ public class UserServiceImpl implements UserService {
                     new HttpEntity<>(headers),
                     String.class);
         } catch (RestClientException e) {
-            log.info("status 404: NOT FOUND");
+            log.info("status 404: {}", login);
         }
         return response;
     }
