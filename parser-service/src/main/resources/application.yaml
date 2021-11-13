@@ -16,3 +16,6 @@ spring:
   devtools:
     livereload:
       enabled: true
+  datasource:
+    hikari:
+      maximum-pool-size: 100

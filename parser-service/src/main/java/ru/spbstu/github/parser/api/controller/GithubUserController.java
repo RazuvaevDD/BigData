@@ -6,32 +6,31 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.spbstu.github.parser.service.GithubUserService;
+import ru.spbstu.github.parser.service.UserService;
 
 @RestController
 @RequestMapping("users")
 @Slf4j
 public class GithubUserController {
 
-    private final GithubUserService githubUserService;
+    private final UserService userService;
 
     @Autowired
-    public GithubUserController(GithubUserService githubUserService) {
-        this.githubUserService = githubUserService;
+    public GithubUserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     public String retrieveUsersShortData(@RequestParam long from, @RequestParam long to, @RequestParam int threads) {
         long count = 100;
-        githubUserService.retrieveAllShortData(from, to, count, threads);
+        userService.retrieveAllShortData(from, to, count, threads);
         log.info("Parsing to retrieve GitHub users short data started...");
         return "Parsing to retrieve GitHub users short data started...";
     }
 
     @GetMapping("/detail")
     public String retrieveUsersDetailData(@RequestParam long from, @RequestParam long to, @RequestParam int threads) {
-        long count = 100;
-        githubUserService.retrieveAllDetailData(from, to, count, threads);
+        userService.retrieveAllDetailData(from, to, threads);
         log.info("Parsing to retrieve GitHub users detail data started...");
         return "Parsing to retrieve GitHub users detail data started...";
     }

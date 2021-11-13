@@ -16,16 +16,16 @@
         <!--        <a href="/users?from=0&to=100" target="_blank" class="card-link">/users?from=0&to=100</a>-->
         <form method="get" target="_blank"  action="/users">
             <label>
-                <input type="text" name="from" placeholder="From" value="0"/>
+                <input type="text" class="form-control" name="from" placeholder="From" value="0"/>
             </label>
             <label>
-                <input type="text" name="to" placeholder="To" value="25000000"/>
+                <input type="text" class="form-control" name="to" placeholder="To" value="25000000"/>
             </label>
             <label>
-                <input type="text" name="threads" placeholder="Thread's count (Max: 40)" value="40"/>
+                <input type="text" class="form-control" name="threads" placeholder="Thread's count (Max: 40)" value="40"/>
             </label>
             <label>
-                <input type="submit" name="state" value="Parse">
+                <input type="submit" class="btn btn-dark" name="state" value="Parse">
             </label>
         </form>
     </div>
@@ -39,16 +39,16 @@
         <!--        <a href="/users?from=0&to=100" target="_blank" class="card-link">/users?from=0&to=100</a>-->
         <form method="get" target="_blank" action="/users/detail">
             <label>
-                <input type="text" name="from" placeholder="From" value="0"/>
+                <input type="text" class="form-control" name="from" placeholder="From" value="0"/>
             </label>
             <label>
-                <input type="text" name="to" placeholder="To" value="25000000"/>
+                <input type="text" class="form-control" name="to" placeholder="To" value="25000000"/>
             </label>
             <label>
-                <input type="text" name="threads" placeholder="Thread's count (Max: 40)" value="40"/>
+                <input type="text" class="form-control" name="threads" placeholder="Thread's count (Max: 40)" value="40"/>
             </label>
             <label>
-                <input type="submit" name="state" value="Parse">
+                <input type="submit" class="btn btn-dark" name="state" value="Parse">
             </label>
         </form>
     </div>
@@ -61,7 +61,16 @@
         <p>
             Display results of GitHub users data analyze.
         </p>
-        <a href="/result" target="_blank">Display</a>
+        <label>
+            <input type="date" name="from" placeholder="From" value=""/>
+        </label>
+        <label>
+            <input type="date" name="to" placeholder="To" value=""/>
+        </label>
+        <label>
+            <input type="submit" class="btn btn-dark" name="state" value="Display">
+        </label>
+        <!--a href="/result" target="_blank">Display</a-->
         </p>
     </div>
 </div>
