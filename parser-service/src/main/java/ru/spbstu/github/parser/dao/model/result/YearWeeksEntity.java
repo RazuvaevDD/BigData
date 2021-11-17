@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 import java.util.Map;
+import java.util.UUID;
 
 @Document("months")
 @Data
@@ -15,7 +16,7 @@ import java.util.Map;
 public class YearWeeksEntity {
 
     @Id
-    private int id;
+    private UUID id;
 
     private int year;
 

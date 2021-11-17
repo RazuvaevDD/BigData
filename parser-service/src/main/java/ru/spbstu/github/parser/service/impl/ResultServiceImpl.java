@@ -8,7 +8,13 @@ import org.threeten.extra.YearWeek;
 import ru.spbstu.github.parser.api.dto.MonthDaysDto;
 import ru.spbstu.github.parser.api.dto.YearMonthsDto;
 import ru.spbstu.github.parser.api.dto.YearWeeksDto;
+import ru.spbstu.github.parser.dao.model.result.MonthDaysEntity;
+import ru.spbstu.github.parser.dao.model.result.YearMonthsEntity;
+import ru.spbstu.github.parser.dao.model.result.YearWeeksEntity;
+import ru.spbstu.github.parser.dao.repository.MonthDaysRepository;
 import ru.spbstu.github.parser.dao.repository.UserDetailRepository;
+import ru.spbstu.github.parser.dao.repository.YearMonthsRepository;
+import ru.spbstu.github.parser.dao.repository.YearWeeksRepository;
 import ru.spbstu.github.parser.service.ResultService;
 
 import java.time.DayOfWeek;
@@ -16,7 +22,7 @@ import java.time.Instant;
 import java.time.Month;
 import java.time.MonthDay;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
 
 import static java.time.ZoneOffset.UTC;
 
@@ -26,8 +32,9 @@ import static java.time.ZoneOffset.UTC;
 public class ResultServiceImpl implements ResultService {
 
     private final UserDetailRepository repository;
-
-    private static final Map<Integer, Instant> months = new HashMap<>();
+    private final MonthDaysRepository monthDaysRepository;
+    private final YearMonthsRepository yearMonthsRepository;
+    private final YearWeeksRepository yearWeeksRepository;
 
     @Override
     public YearMonthsDto getCountOfRegistrationsByMonths() {
@@ -40,9 +47,14 @@ public class ResultServiceImpl implements ResultService {
             result.put(i, count);
         }
         log.info("Finished.");
-        YearMonthsDto year = new YearMonthsDto();
-        year.setMonths(result);
-        return year;
+        YearMonthsDto dto = new YearMonthsDto();
+        dto.setMonths(result);
+        YearMonthsEntity entity = new YearMonthsEntity();
+        entity.setId(UUID.randomUUID());
+        entity.setYear(dto.getYear());
+        entity.setMonths(dto.getMonths());
+        yearMonthsRepository.save(entity);
+        return dto;
     }
 
     @Override
@@ -59,17 +71,22 @@ public class ResultServiceImpl implements ResultService {
             weeks.put(i, count);
         }
         log.info("Extracted count of registrations by week.");
-        YearWeeksDto week = new YearWeeksDto();
-        week.setYear(2021);
-        week.setWeeks(weeks);
-        return week;
+        YearWeeksDto dto = new YearWeeksDto();
+        dto.setYear(2021);
+        dto.setWeeks(weeks);
+        YearWeeksEntity entity = new YearWeeksEntity();
+        entity.setId(UUID.randomUUID());
+        entity.setYear(dto.getYear());
+        entity.setWeeks(dto.getWeeks());
+        yearWeeksRepository.save(entity);
+        return dto;
     }
 
     public MonthDaysDto getCountOfRegistrationsByDays(int month) {
         if (month < 0 || month > 12)
             return new MonthDaysDto();
 
-        var monthDto = new MonthDaysDto();
+        var dto = new MonthDaysDto();
         var result = new HashMap<Integer, Integer>();
 
         var lastDayOfMonth = daysOfMonth(month);
@@ -84,10 +101,15 @@ public class ResultServiceImpl implements ResultService {
         }
         log.info("Extracted count of registrations by days of month {}.", month);
 
-        monthDto.setYear(2021);
-        monthDto.setMonth(Month.of(month));
-        monthDto.setDays(result);
-        return monthDto;
+        dto.setYear(2021);
+        dto.setMonth(Month.of(month));
+        dto.setDays(result);
+        MonthDaysEntity entity = new MonthDaysEntity();
+        entity.setId(UUID.randomUUID());
+        entity.setYear(dto.getYear());
+        entity.setDays(dto.getDays());
+        monthDaysRepository.save(entity);
+        return dto;
     }
 
     private static int daysOfMonth(int month) {
