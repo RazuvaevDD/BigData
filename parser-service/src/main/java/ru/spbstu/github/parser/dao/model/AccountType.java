@@ -3,13 +3,13 @@ package ru.spbstu.github.parser.dao.model;
 import lombok.Getter;
 
 @Getter
-public enum Type {
-    USER("User"),
+public enum AccountType {
+    USER("UserEntity"),
     ORGANIZATION("Organization");
 
     private final String name;
 
-    Type(String name) {
+    AccountType(String name) {
         this.name = name;
     }
 }

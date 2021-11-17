@@ -11,12 +11,12 @@ import ru.spbstu.github.parser.service.UserService;
 @RestController
 @RequestMapping("users")
 @Slf4j
-public class GithubUserController {
+public class ParserController {
 
     private final UserService userService;
 
     @Autowired
-    public GithubUserController(UserService userService) {
+    public ParserController(UserService userService) {
         this.userService = userService;
     }
 

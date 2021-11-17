@@ -1,4 +1,4 @@
-package ru.spbstu.github.parser.dao.model;
+package ru.spbstu.github.parser.dao.model.user;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
-public class User {
+public class UserEntity {
 
     @Id
     private long id;

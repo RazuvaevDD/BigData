@@ -1,4 +1,4 @@
-package ru.spbstu.github.parser.dao.model;
+package ru.spbstu.github.parser.dao.model.user;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +12,7 @@ import java.time.Instant;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
-public class UserDetail {
+public class UserDetailEntity {
 
     @Id
     private long id;
