@@ -40,8 +40,8 @@ public class ResultServiceImpl implements ResultService {
     public YearMonthsDto getCountOfRegistrationsByMonths() {
         var result = new HashMap<Integer, Integer>();
         for (int i = 1; i < 12; i++) {
-            Instant from = new DateTime(2021, 0, 1, 1, 1, 1, 1).toDate().toInstant();
-            Instant to = new DateTime(2021, 11, 30, 1, 1, 1, 1).toDate().toInstant();
+            Instant from = new DateTime(2021, i, 1, 1, 1).toDate().toInstant();
+            Instant to = new DateTime(2021, i, daysOfMonth(i), 1, 1).toDate().toInstant();
             var count = repository.countUserDetailByCreatedAtIsBetween(from, to);
             log.info("Month {}. Extracting users from {} to {}. Count={}", i, from, to, count);
             result.put(i, count);
@@ -60,9 +60,9 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public YearWeeksDto getCountOfRegistrationsByWeeks() {
         var weeks = new HashMap<Integer, Integer>();
-        YearWeek start = YearWeek.of(2021, 1);
+        //YearWeek start = YearWeek.of(2021, 1);
 
-        for (int i = 1; i < start.lengthOfYear(); i++) {
+        for (int i = 1; i < 53; i++) {
             var currentWeek = YearWeek.of(2021, i);
             var from = currentWeek.atDay(DayOfWeek.MONDAY).atStartOfDay().toInstant(UTC);
             var to = currentWeek.atDay(DayOfWeek.SUNDAY).atStartOfDay().toInstant(UTC);
