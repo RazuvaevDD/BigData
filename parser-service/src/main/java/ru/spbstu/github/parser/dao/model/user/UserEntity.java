@@ -1,4 +1,4 @@
-package ru.spbstu.github.parser.dao.model;
+package ru.spbstu.github.parser.dao.model.user;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -7,11 +7,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 
-@Document
+@Document("user")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
-public class User {
+public class UserEntity {
 
     @Id
     private long id;

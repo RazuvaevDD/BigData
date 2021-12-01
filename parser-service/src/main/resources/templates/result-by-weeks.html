@@ -1,0 +1,30 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $.get("http://127.0.0.1:8888/cached/result/week/parsed",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by weeks',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-weeks'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+    </script>
+</head>
+<body>
+<div id="by-weeks" style="width: 1200px; height: 500px;"></div>
+</body>
+</html>

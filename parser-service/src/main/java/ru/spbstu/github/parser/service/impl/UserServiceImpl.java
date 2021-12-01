@@ -12,8 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.spbstu.github.parser.api.dto.UserDetailDto;
 import ru.spbstu.github.parser.api.dto.UserDto;
-import ru.spbstu.github.parser.dao.model.User;
-import ru.spbstu.github.parser.dao.model.UserDetail;
+import ru.spbstu.github.parser.dao.model.user.UserDetailEntity;
+import ru.spbstu.github.parser.dao.model.user.UserEntity;
 import ru.spbstu.github.parser.dao.repository.UserDetailRepository;
 import ru.spbstu.github.parser.dao.repository.UserRepository;
 import ru.spbstu.github.parser.service.UserService;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public UserDetail retrieve(String login, String token) {
+    public UserDetailEntity retrieve(String login, String token) {
         if (login == null) return null;
         final ResponseEntity<String> response = sendRequestToGetDetailedUser(login, token);
 
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
             return null;
 
         log.info("status {}: {}, {}", response.getStatusCode(), user.getId(), user.getLogin());
-        return modelMapper.map(user, UserDetail.class);
+        return modelMapper.map(user, UserDetailEntity.class);
     }
 
     @Override
@@ -108,10 +108,10 @@ public class UserServiceImpl implements UserService {
 
         for (int i = from; i < to; i++) {
             Long id = start + i;
-            final Optional<User> user = userRepository.findById(id);
-            String login = user.map(User::getLogin).orElse(null);
+            final Optional<UserEntity> user = userRepository.findById(id);
+            String login = user.map(UserEntity::getLogin).orElse(null);
 
-            UserDetail result = retrieve(login, token);
+            UserDetailEntity result = retrieve(login, token);
             counter++;
 
             if (result != null)
@@ -201,7 +201,7 @@ public class UserServiceImpl implements UserService {
             var users = new LinkedList<>(Arrays.asList(response.getBody()));
 
             var storedUsers = users.stream()
-                    .map(user -> modelMapper.map(user, User.class))
+                    .map(user -> modelMapper.map(user, UserEntity.class))
 //                    .peek(user -> log.info("{}: {}", user.getId(), user.getLogin()))
                     .collect(Collectors.toList());
 

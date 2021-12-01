@@ -11,4 +11,19 @@ public class WelcomeController {
     public String main(Model model) {
         return "welcome";
     }
+
+    @GetMapping("/result")
+    public String result(Model model) {
+        return "result";
+    }
+
+    @GetMapping("/result/by-weeks")
+    public String resultByWeeks(Model model) {
+        return "result-by-weeks";
+    }
+
+    @GetMapping("/result/by-months")
+    public String resultByMonth(Model model) {
+        return "result-by-months";
+    }
 }

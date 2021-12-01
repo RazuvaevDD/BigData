@@ -1,0 +1,292 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $.get("http://127.0.0.1:8888/cached/result/month/parsed",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by months',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-months'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        $.get("http://127.0.0.1:8888/cached/result/week/parsed",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by weeks',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-weeks'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=1",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (January)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-1'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=2",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (February)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-2'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=3",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (March)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-3'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        // 4
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=4",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (April)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-4'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        // 5
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=5",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (May)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-5'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        // 6
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=6",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (June)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-6'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        // 7
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=7",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (July)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-7'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        // 8
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=8",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (August)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-8'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        // 9
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=9",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (September)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-9'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        // 10
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=10",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (October)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-10'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+
+        // 11
+        $.get("http://127.0.0.1:8888/cached/result/day/parsed?month=11",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let d = google.visualization.arrayToDataTable(data);
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by days (November)',
+                            subtitle: '...',
+                        }
+                    };
+                    let chart = new google.charts.Bar(document.getElementById('by-days-of-month-11'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+    </script>
+</head>
+<body>
+<div id="by-months" style="width: 1280px; height: 360px;"></div>
+<div id="by-weeks" style="width: 1280px; height: 360px;"></div>
+
+<div id="by-days-of-month-1" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-2" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-3" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-4" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-5" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-6" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-7" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-8" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-9" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-10" style="width: 1280px; height: 360px;"></div>
+<div id="by-days-of-month-11" style="width: 1280px; height: 360px;"></div>
+
+</body>
+</html>

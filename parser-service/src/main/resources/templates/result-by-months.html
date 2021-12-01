@@ -1,0 +1,35 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $.get("http://127.0.0.1:8888/cached/result/month/parsed",
+            function (data, status) {
+                console.log(data);
+
+                function drawChart() {
+                    let r = data[0];
+                    console.log(r)
+
+                    let d = google.visualization.arrayToDataTable(data);
+
+                    let options = {
+                        chart: {
+                            title: 'GitHub users 2021 by months',
+                            subtitle: '...',
+                        }
+                    };
+
+                    let chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+                    chart.draw(d, google.charts.Bar.convertOptions(options));
+                }
+
+                google.charts.load('current', {'packages': ['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+            });
+    </script>
+</head>
+<body>
+<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+</body>
+</html>
