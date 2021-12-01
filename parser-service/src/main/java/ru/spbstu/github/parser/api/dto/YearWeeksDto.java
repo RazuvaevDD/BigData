@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -12,5 +13,5 @@ import java.util.Map;
 public class YearWeeksDto {
 
     private int year;
-    private Map<Integer, Integer> weeks;
+    private Map<Integer, List<Integer>> weeks;
 }

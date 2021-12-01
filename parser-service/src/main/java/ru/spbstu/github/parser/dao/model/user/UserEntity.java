@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 
-@Document
+@Document("user")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode

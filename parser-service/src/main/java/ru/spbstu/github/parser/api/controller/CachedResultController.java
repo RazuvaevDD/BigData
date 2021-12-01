@@ -11,6 +11,8 @@ import ru.spbstu.github.parser.api.dto.YearMonthsDto;
 import ru.spbstu.github.parser.api.dto.YearWeeksDto;
 import ru.spbstu.github.parser.service.CachedResultService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/cached/result")
 @AllArgsConstructor
@@ -32,5 +34,22 @@ public class CachedResultController {
     @GetMapping("/day")
     public MonthDaysDto retrieveDaysByMonth(@RequestParam int month) {
         return cachedResultService.getCountOfRegistrationsByDays(month);
+    }
+
+    // Parsed
+
+    @GetMapping("/month/parsed")
+    public List<List<Object>> retrieveMonthParsed() {
+        return cachedResultService.getCountOfRegistrationsByMonthsParsed();
+    }
+
+    @GetMapping("/week/parsed")
+    public List<List<Object>> retrieveWeeksParsed() {
+        return cachedResultService.getCountOfRegistrationsByWeeksParsed();
+    }
+
+    @GetMapping("/day/parsed")
+    public List<List<Object>> retrieveDaysByMonthParsed(@RequestParam int month) {
+        return cachedResultService.getCountOfRegistrationsByDaysParsed(month);
     }
 }

@@ -10,4 +10,6 @@ import java.time.Instant;
 public interface UserDetailRepository extends MongoRepository<UserDetailEntity, Long> {
 
     int countUserDetailByCreatedAtIsBetween(Instant from, Instant to);
+
+    int countByCreatedAtBetweenAndType(Instant from, Instant to, String type);
 }

@@ -6,19 +6,19 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-@Document("months")
+@Document("weeks")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
 public class YearWeeksEntity {
 
     @Id
-    private UUID id;
+    private String id;
 
     private int year;
 
-    private Map<Integer, Integer> weeks;
+    private Map<Integer, List<Integer>> weeks;
 }

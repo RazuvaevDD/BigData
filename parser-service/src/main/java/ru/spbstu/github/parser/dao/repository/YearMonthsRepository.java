@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.spbstu.github.parser.dao.model.result.YearMonthsEntity;
 
 @Repository
-public interface YearMonthsRepository extends MongoRepository<YearMonthsEntity, Long> {
+public interface YearMonthsRepository extends MongoRepository<YearMonthsEntity, String> {
 }

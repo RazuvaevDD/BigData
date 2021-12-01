@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -13,18 +14,5 @@ import java.util.Map;
 public class YearMonthsDto {
 
     private int year;
-    private Map<Integer, Integer> months = new HashMap<>();
-
-//    private int january;
-//    private int february;
-//    private int march;
-//    private int april;
-//    private int may;
-//    private int june;
-//    private int july;
-//    private int august;
-//    private int september;
-//    private int october;
-//    private int november;
-//    private int december;
+    private Map<Integer, List<Integer>> months = new HashMap<>();
 }

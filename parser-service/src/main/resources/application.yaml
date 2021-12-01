@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT:8888}
 spring:
 #  datasource:
 #    url: "mongodb://localhost:27017/github"

@@ -33,4 +33,9 @@ public class ResultController {
     public MonthDaysDto retrieveDaysByMonth(@RequestParam int month) {
         return resultService.getCountOfRegistrationsByDays(month);
     }
+
+    @GetMapping("/time")
+    public MonthDaysDto retrieveTimesByMonth(@RequestParam int month) {
+        return resultService.getCountOfRegistrationsByDays(month);
+    }
 }
